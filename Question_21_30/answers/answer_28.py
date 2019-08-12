@@ -8,8 +8,8 @@ def affine(img, a, b, c, d, tx, ty):
   	H, W, C = img.shape
 
 	# temporary image
-	img = np.zeros((H+2, W+2, C), dtype=np.float32)
-	img[1:H+1, 1:W+1] = _img
+	temp_img = np.zeros((H+2, W+2, C), dtype=np.float32)
+	temp_img[1:H+1, 1:W+1] = img
 
 	# get new image shape
 	H_new = np.round(H * d).astype(np.int)
@@ -29,7 +29,7 @@ def affine(img, a, b, c, d, tx, ty):
 	y = np.minimum(np.maximum(y, 0), H+1).astype(np.int)
 
 	# assgin pixcel to new image
-	out[y_new, x_new] = img[y, x]
+	out[y_new, x_new] = temp_img[y, x]
 
 	out = out[:H_new, :W_new]
 	out = out.astype(np.uint8)
